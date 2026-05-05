@@ -1,0 +1,32 @@
+-- make sure to add the new buttons into ENTITY pong
+    btnu : IN STD_LOGIC; -- ADDED
+    btnd : IN STD_LOGIC; -- ADDED
+
+pos : PROCESS (clk_in) is
+    BEGIN
+        if rising_edge(clk_in) then
+            count <= count + 1;
+            IF (btnl = '1' and count = 0 and chefpos_x > 0) THEN -- change all batpos to x
+                chefpos_x <= chefpos_x - 10;
+            ELSIF (btnr = '1' and count = 0 and chefpos_x < 800) THEN
+                chefpos_x <= chefpos_x + 10;
+            ELSIF (btnu = '1' and count = 0 and chefpos_y < 600) THEN -- ADDED FOR Y MOVEMENT
+                chefpos_y <= chefpos_y + 10;
+            ELSIF (btnd = '1' and count = 0 and chefpos_y > 0) THEN  -- ADDED FOR Y MOVEMENT
+                chefpos_y <= chefpos_y - 10;
+            END IF;
+        end if;
+    END PROCESS;
+
+add_bb : bat_n_ball
+    PORT MAP(--instantiate bat and ball component
+        v_sync => S_vsync, 
+        pixel_row => S_pixel_row, 
+        pixel_col => S_pixel_col, 
+        chef_x => chefpos_x, 
+        chef_y => chefpos_y, -- this has to be added in bat_n_ball as well 
+        serve => btn0, 
+        red => S_red, 
+        green => S_green, 
+        blue => S_blue
+    );
