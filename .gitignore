@@ -32,3 +32,6 @@ Desktop.ini
 
 # Ignore image/source asset folder
 Images/
+
+# Ignore code modification backup folder
+CodeModif/
