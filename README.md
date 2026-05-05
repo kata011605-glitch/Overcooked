@@ -15,9 +15,9 @@ A description of the expected behavior of the project, attachments needed (speak
 - BTNL: move character left
 - BTNR: move character right
 - BTNC: pick up and put down
-- Switch 1: male charecter select
-- Switch 2: female charecter select
-- Switch 3: game start
+- Switch W0: male charecter select
+- Switch W1: female charecter select
+- Switch W2: game start
 
 ### Required Hardware/Software
 - Digilent Nexys A7-100T FPGA Board
