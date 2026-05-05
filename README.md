@@ -6,7 +6,21 @@ Kaitlyn Adams, Malia Chopra, and Zihan Sun
 We pledge our honor that we have abided by the Stevens Honor System
 
 ## Behavior description
-A description of the expected behavior of the project, attachments needed (speaker module, VGA connector, etc.), related images/diagrams, etc. (10 points of the Submission category)
+This project is a single player Overcooked-style cooking game implemented in VHDL on the Digilent Nexys A7-100T FPGA board. The game is displayed on a display or monitor using VGA output through a VGA-to-HDMI adapter.
+
+The player can control a chef character in a kitchen layout. The goal is to pick up ingredients, prepare food, and complete the order cards before the timer runs out. The kitchen contains ingredient stations, drinks, a cut board and fryer station, a serving counter, plates, and a trash can.
+
+The player can move the chef near an item or station using 4 directional buttons and press the center button to interact. Depending on the chef’s location and held item, the player can pick up items, combine ingredients, serve food, or discard an item.
+
+The game includes an intro screen where the player selects between two chef characters. During gameplay, only the selected chef appears on the screen.
+
+The game has four main states:
+```INTRO_SELECT → GAME_PLAYING → GAME_WIN / GAME_OVER```
+
+In INTRO_SELECT, the player can choose a character toggling Switch 0 and Switch 1 on the board and start the game by turning on Switch 2. In GAME_PLAYING, the timer runs and the player completes orders. If all orders are completed before the timer runs out, the game enters GAME_WIN. If the timer reaches zero before all orders are completed, the game enters GAME_OVER.
+
+This project uses finite state machine logic for the states of game flow and Boolean logic for collision and interaction detection. For example, signals such as near_buns, near_cheese, near_fryer, near_counter, and near_trash determine whether the chef is close enough to interact with a station.
+
 ### Game Objective
 
 
