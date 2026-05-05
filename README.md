@@ -21,10 +21,6 @@ In INTRO_SELECT, the player can choose a character toggling Switch 0 and Switch 
 
 This project uses finite state machine logic for the states of game flow and Boolean logic for collision and interaction detection. For example, signals such as near_buns, near_cheese, near_fryer, near_counter, and near_trash determine whether the chef is close enough to interact with a station.
 
-### Game Objective
-
-
-
 ### Controls
 
 - BTNU: move character up
