@@ -44,10 +44,16 @@ The more detailed the better – you all know how much I love a good finite stat
 
 ## Summary of steps
 1. Create a new RTL project called _overcooked_ in Vivado Quick Start
-2. Run synthesis
-3. Run implementation
-4. Generate bitstream, open hardware manager, and program device
-5. Play the game!
+     - Create 27 new files using the names listed in under Final_Project.srcs
+     - Create a new constraint file of file type XDC called setup.xdc
+     - Choose Nexys A7-100T board for the project
+     - Click 'Finish'
+     - Click design sources and copy the VHDL code for each file
+     - Click constraints and copy the code from setup.xdc
+3. Run synthesis
+4. Run implementation
+5. Generate bitstream, open hardware manager, and program device
+6. Play the game!
 <img width="1280" height="720" alt="Slide1" src="https://github.com/user-attachments/assets/7a1e8fa4-f9ad-4950-a212-5c0dcb2247b5" />
 
 A summary of the steps to get the project to work in Vivado and on the Nexys board (5 points of the Submission category)
