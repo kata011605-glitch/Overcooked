@@ -7,6 +7,9 @@ We pledge our honor that we have abided by the Stevens Honor System
 
 ## Behavior description
 A description of the expected behavior of the project, attachments needed (speaker module, VGA connector, etc.), related images/diagrams, etc. (10 points of the Submission category)
+### Game Objective
+
+
 
 ### Controls
 
