@@ -45,6 +45,7 @@ The more detailed the better – you all know how much I love a good finite stat
 ## Summary of steps
 1. Download all the source and constraint files into Vivado.
 2. Connect 
+<img width="1280" height="720" alt="Slide1" src="https://github.com/user-attachments/assets/7a1e8fa4-f9ad-4950-a212-5c0dcb2247b5" />
 
 A summary of the steps to get the project to work in Vivado and on the Nexys board (5 points of the Submission category)
 
