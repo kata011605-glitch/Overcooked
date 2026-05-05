@@ -60,6 +60,30 @@ A summary of the steps to get the project to work in Vivado and on the Nexys boa
 
 Description of inputs from and outputs to the Nexys board from the Vivado project (10 points of the Submission category)
 
+### Inputs and Outputs
+
+```VHDL
+entity cookfood is
+    port (
+        v_sync      : in  STD_LOGIC;
+        pixel_row   : in  STD_LOGIC_VECTOR(10 downto 0);
+        pixel_col   : in  STD_LOGIC_VECTOR(10 downto 0);
+        chefm_x     : in  STD_LOGIC_VECTOR(10 downto 0);
+        chefm_y     : in  STD_LOGIC_VECTOR(10 downto 0);
+        action      : in  STD_LOGIC; --pick up item/submit button
+        --for character selection
+        sw0         : in  STD_LOGIC;
+        sw1         : in  STD_LOGIC;
+        sw2         : in  STD_LOGIC;
+        red         : out STD_LOGIC_VECTOR(3 downto 0);
+        green       : out STD_LOGIC_VECTOR(3 downto 0);
+        blue        : out STD_LOGIC_VECTOR(3 downto 0);
+        score_out   : out STD_LOGIC_VECTOR(7 downto 0);
+        shuffle_sel : in  STD_LOGIC_VECTOR(2 downto 0)
+    );
+end cookfood;
+```
+
 As part of this category, if using starter code of some kind (discussed below), you should add at least one input and at least one output appropriate to your project to demonstrate your understanding of modifying the ports of your various architectures and components in VHDL as well as the separate .xdc constraints file.
 
 Images and/or videos of the project in action interspersed throughout to provide context (10 points of the Submission category)
