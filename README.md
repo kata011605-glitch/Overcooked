@@ -18,7 +18,6 @@ The game has four main states:
 ```INTRO_SELECT → GAME_PLAYING → GAME_WIN / GAME_OVER```
 
 In ```INTRO_SELECT```, the player can choose a character toggling Switch 0 and Switch 1 on the board and start the game by turning on Switch 2. In ```GAME_PLAYING```, the timer runs and the player completes orders. If all orders are completed before the timer runs out, the game enters ```GAME_WIN```. If the timer reaches zero before all orders are completed, the game enters ```GAME_OVER```.
-!(assets/images/femcharsel.HEIC)
 
 This project uses finite state machine logic for the states of game flow and Boolean logic for collision and interaction detection. For example, signals such as near_buns, near_cheese, near_fryer, near_counter, and near_trash determine whether the chef is close enough to interact with a station.
 
