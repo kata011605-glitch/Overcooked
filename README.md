@@ -17,7 +17,7 @@ The game includes an intro screen where the player selects between two chef char
 The game has four main states:
 ```INTRO_SELECT → GAME_PLAYING → GAME_WIN / GAME_OVER```
 
-In INTRO_SELECT, the player can choose a character toggling Switch 0 and Switch 1 on the board and start the game by turning on Switch 2. In GAME_PLAYING, the timer runs and the player completes orders. If all orders are completed before the timer runs out, the game enters GAME_WIN. If the timer reaches zero before all orders are completed, the game enters GAME_OVER.
+In ```INTRO_SELECT```, the player can choose a character toggling Switch 0 and Switch 1 on the board and start the game by turning on Switch 2. In ```GAME_PLAYING```, the timer runs and the player completes orders. If all orders are completed before the timer runs out, the game enters ```GAME_WIN```. If the timer reaches zero before all orders are completed, the game enters ```GAME_OVER```.
 
 This project uses finite state machine logic for the states of game flow and Boolean logic for collision and interaction detection. For example, signals such as near_buns, near_cheese, near_fryer, near_counter, and near_trash determine whether the chef is close enough to interact with a station.
 
@@ -27,10 +27,10 @@ This project uses finite state machine logic for the states of game flow and Boo
 - BTND: move character down
 - BTNL: move character left
 - BTNR: move character right
-- BTNC: pick up and put down
-- Switch W0: male charecter select
-- Switch W1: female charecter select
-- Switch W2: game start
+- BTNC (btn0): pick up and put down
+- Switch SW0: male charecter select on the right
+- Switch SW1: female charecter select on the left
+- Switch SW2: game start when flipped up / game back to character selection when game over and flipped down
 
 ### Required Hardware/Software
 - Digilent Nexys A7-100T FPGA Board
@@ -43,6 +43,9 @@ This project uses finite state machine logic for the states of game flow and Boo
 The more detailed the better – you all know how much I love a good finite state machine and Boolean logic, so those could be some good ideas if appropriate for your system. If not, some kind of high level block diagram showing how different parts of your program connect together and/or showing how what you have created might fit into a more complete system could be appropriate instead.
 
 ## Summary of steps
+1. Download all the source and constraint files into Vivado.
+2. Connect 
+
 A summary of the steps to get the project to work in Vivado and on the Nexys board (5 points of the Submission category)
 
 Description of inputs from and outputs to the Nexys board from the Vivado project (10 points of the Submission category)
