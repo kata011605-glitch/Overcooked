@@ -1,0 +1,34 @@
+﻿# Vivado generated folders
+Final_Project.cache/
+Final_Project.hw/
+Final_Project.ip_user_files/
+Final_Project.runs/
+Final_Project.sim/
+
+# Vivado generated files
+*.jou
+*.log
+*.str
+*.bit
+*.bin
+*.ltx
+*.rpt
+*.dcp
+*.wdb
+*.pb
+*.xml
+*.html
+*.zip
+
+# Windows junk
+Thumbs.db
+Desktop.ini
+
+# Keep important project files
+!Final_Project.xpr
+!Final_Project.srcs/
+!Images/
+!CodeModif/
+
+# Ignore image/source asset folder
+Images/
