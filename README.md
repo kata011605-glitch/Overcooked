@@ -43,8 +43,11 @@ This project uses finite state machine logic for the states of game flow and Boo
 The more detailed the better – you all know how much I love a good finite state machine and Boolean logic, so those could be some good ideas if appropriate for your system. If not, some kind of high level block diagram showing how different parts of your program connect together and/or showing how what you have created might fit into a more complete system could be appropriate instead.
 
 ## Summary of steps
-1. Download all the source and constraint files into Vivado.
-2. Connect 
+1. Create a new RTL project called _overcooked_ in Vivado Quick Start
+2. Run synthesis
+3. Run implementation
+4. Generate bitstream, open hardware manager, and program device
+5. Play the game!
 <img width="1280" height="720" alt="Slide1" src="https://github.com/user-attachments/assets/7a1e8fa4-f9ad-4950-a212-5c0dcb2247b5" />
 
 A summary of the steps to get the project to work in Vivado and on the Nexys board (5 points of the Submission category)
