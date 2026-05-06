@@ -85,7 +85,7 @@ end cookfood;
 ```
 
 #### Inputs
-- `v_sync`, `pixel_row`, `pixel_col1: FPGA display
+- `v_sync`, `pixel_row`, `pixel_col1`: FPGA display
 - `chefm_x`, `chefm_y`: character movement
 - `action`: holding items
 - `sw0`, `sw1`, `sw2`: switches to pick characters
