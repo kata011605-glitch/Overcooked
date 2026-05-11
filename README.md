@@ -3,7 +3,7 @@
 
 Kaitlyn Adams, Malia Chopra, and Zihan Sun
 
-We pledge our honor that we have abided by the Stevens Honor System
+We pledge our honor that we have abided by the Stevens Honor System.
 
 ## Behavior description
 This project is a single player Overcooked-style cooking game implemented in VHDL on the Digilent Nexys A7-100T FPGA board. The game is displayed on a display or monitor using VGA output through a VGA-to-HDMI adapter.
@@ -89,6 +89,11 @@ end cookfood;
 - `chefm_x`, `chefm_y`: character movement
 - `action`: holding items
 - `sw0`, `sw1`, `sw2`: switches to pick characters
+- `shuffle_sel`: random sequence of orders
+
+#### Outputs
+- `red`, `green`, `blue`: FPGA color display
+- `score_out`: scoring on Nexys board
 
 As part of this category, if using starter code of some kind (discussed below), you should add at least one input and at least one output appropriate to your project to demonstrate your understanding of modifying the ports of your various architectures and components in VHDL as well as the separate .xdc constraints file.
 
