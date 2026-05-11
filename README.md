@@ -110,8 +110,12 @@ If building on an existing lab or expansive starter code of some kind, describe 
 
 If you truly created your code/project from scratch, summarize that process here in place of the above.
 
+We used `vga_sync.vhd` and `setup.vhd` and `leddec.vhd` from Lab 6. 
+
 ## Summary
 Conclude with a summary of the process itself – who was responsible for what components (preferably also shown by each person contributing to the github repository!), the timeline of work completed, any difficulties encountered and how they were solved, etc. (10 points of the Submission category)
+
+We started by working on the graphics
 
 ## Code
 And of course, the code itself separated into appropriate .vhd and .xdc files. (50 points of the Submission category; based on the code working, code complexity, quantity/quality of modifications, etc.)
