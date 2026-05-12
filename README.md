@@ -119,7 +119,7 @@ If building on an existing lab or expansive starter code of some kind, describe 
 
 If you truly created your code/project from scratch, summarize that process here in place of the above.
 
-We used `vga_sync.vhd`, `setup.vhd`, `leddec.vhd`, `clk_wiz_0.vhd`, and `clk_wiz_0_clk_wiz.vhd` from Lab 6. 
+We used `vga_sync.vhd`, `setup.vhd`, `leddec.vhd`, `clk_wiz_0.vhd`, and `clk_wiz_0_clk_wiz.vhd` from Lab 6. We also used some aspects of `pong.vhd` from Lab 6. We used the y movement of that bat to move the chef, but added an x movement
 
 ## Summary
 Conclude with a summary of the process itself – who was responsible for what components (preferably also shown by each person contributing to the github repository!), the timeline of work completed, any difficulties encountered and how they were solved, etc. (10 points of the Submission category)
