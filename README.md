@@ -56,6 +56,8 @@ This project uses finite state machine logic for the states of game flow and Boo
 
 The more detailed the better – you all know how much I love a good finite state machine and Boolean logic, so those could be some good ideas if appropriate for your system. If not, some kind of high level block diagram showing how different parts of your program connect together and/or showing how what you have created might fit into a more complete system could be appropriate instead.
 
+[Full Video of Game Play](https://youtu.be/U1lmlOHkiJk)
+
 ## Summary of steps
 1. Create a new RTL project called _overcooked_ in Vivado Quick Start
      - Create 27 new files using the names listed in under Final_Project.srcs
@@ -119,7 +121,7 @@ If building on an existing lab or expansive starter code of some kind, describe 
 
 If you truly created your code/project from scratch, summarize that process here in place of the above.
 
-We used `vga_sync.vhd`, `setup.vhd`, `leddec.vhd`, `clk_wiz_0.vhd`, and `clk_wiz_0_clk_wiz.vhd` from Lab 6. We also used some aspects of `pong.vhd` from Lab 6. We used the y movement of that bat to move the chef, but added an x movement
+We used `vga_sync.vhd`, `setup.vhd`, `leddec.vhd`, `clk_wiz_0.vhd`, and `clk_wiz_0_clk_wiz.vhd` from Lab 6. We also used some aspects of `pong.vhd` from Lab 6. We used the y movement of that bat to move the chef, but added an x movement component so the chef could go anywhere. We also kept the scoring component from Lab 6. Every time an order is completed, the counter on the Nexys board counts up by 1 in binary.
 
 ## Summary
 Conclude with a summary of the process itself – who was responsible for what components (preferably also shown by each person contributing to the github repository!), the timeline of work completed, any difficulties encountered and how they were solved, etc. (10 points of the Submission category)
