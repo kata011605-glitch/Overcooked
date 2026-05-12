@@ -1,3 +1,4 @@
+
 # Overcooked
 **CPE 487 Final Project**
 
@@ -10,7 +11,8 @@ This project is a single player Overcooked-style cooking game implemented in VHD
 
 The player can control a chef character in a kitchen layout. The goal is to pick up ingredients, prepare food, and complete the order cards before the timer runs out. The kitchen contains ingredient stations, drinks, a cut board and fryer station, a serving counter, plates, and a trash can.
 
-<img width="3971" height="3282" alt="gameplay" src="https://github.com/user-attachments/assets/806d2712-f85a-4138-9a7a-ec4bc23319a1" />
+<img width="1441" height="850" alt="IMG_4161" src="https://github.com/user-attachments/assets/4f1594ca-eddf-46b7-b1a8-f7b08ce7b474" />
+
 
 The player can move the chef near an item or station using 4 directional buttons and press the center button to interact. Depending on the chef’s location and held item, the player can pick up items, combine ingredients, serve food, or discard an item.
 
@@ -23,6 +25,8 @@ The game has four main states:
 ```INTRO_SELECT → GAME_PLAYING → GAME_WIN / GAME_OVER```
 
 In ```INTRO_SELECT```, the player can choose a character toggling Switch 0 and Switch 1 on the board and start the game by turning on Switch 2. In ```GAME_PLAYING```, the timer runs and the player completes orders. If all orders are completed before the timer runs out, the game enters ```GAME_WIN```. If the timer reaches zero before all orders are completed, the game enters ```GAME_OVER```.
+<img width="2138" height="1290" alt="IMG_4159" src="https://github.com/user-attachments/assets/357455d8-c016-4303-b677-2180ba77ce5c" />
+<img width="2104" height="1258" alt="IMG_4162" src="https://github.com/user-attachments/assets/ba54f7a9-1fb5-4cdf-8cf3-1a8ac9754864" />
 
 This project uses finite state machine logic for the states of game flow and Boolean logic for collision and interaction detection. For example, signals such as near_buns, near_cheese, near_fryer, near_counter, and near_trash determine whether the chef is close enough to interact with a station.
 
