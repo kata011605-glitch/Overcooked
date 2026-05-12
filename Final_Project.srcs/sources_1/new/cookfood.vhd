@@ -128,6 +128,9 @@ architecture Behavioral of cookfood is
     signal last_sw2 : STD_LOGIC := '0';
     signal chef_selected : STD_LOGIC := '0';
     
+    --Chef near item, item highlighted
+    signal slot_visible : STD_LOGIC;
+    
     component buns_display is
         Port (
             pixel_row : in  STD_LOGIC_VECTOR(10 downto 0);
@@ -792,14 +795,18 @@ begin
             held_bunscheese_r, held_bunscheese_g, held_bunscheese_b, held_bunscheese_visible,
             held_burger_r, held_burger_g, held_burger_b, held_burger_visible,
             held_fries_r, held_fries_g, held_fries_b, held_fries_visible,
+            near_buns, near_patty, near_plate, near_cheese, near_potato, near_trash, near_cola, near_sprite, near_fryer, near_counter,
             msg_r, msg_g, msg_b, msg_visible,
             intro_r, intro_g, intro_b, intro_visible,
             game_state, selected_chef,
+            
             held_item)
     begin
         red   <= "1100";
         green <= "1100";
         blue  <= "1111";
+        --ADDED: ***
+        slot_visible <= '0';
 
         if pixel_row >= 600 then
             red   <= "1010";
@@ -832,10 +839,10 @@ begin
             blue  <= "1111";
         end if;
         
-        if (pixel_col >= 561 and pixel_col <= 564 and pixel_row >= 102 and pixel_row <= 163) then --90->102
-            red   <= "1100";
-            green <= "1100";
-            blue  <= "1100";
+        if (pixel_col >= 561 and pixel_col <= 564 and pixel_row >= 102 and pixel_row <= 163) then --grey bar
+            red   <= "1001";
+            green <= "1001";
+            blue  <= "1001";
         end if;
         
         if (pixel_col >= 565 and pixel_col <= 575 and pixel_row >= 102 and pixel_row <= 163) then 
@@ -844,10 +851,10 @@ begin
             blue  <= "1111";
         end if;
         
-        if (pixel_col >= 576 and pixel_col <= 579 and pixel_row >= 102 and pixel_row <= 163) then
-            red   <= "1100";
-            green <= "1100";
-            blue  <= "1100";
+        if (pixel_col >= 576 and pixel_col <= 579 and pixel_row >= 102 and pixel_row <= 163) then --grey bar
+            red   <= "1001";
+            green <= "1001";
+            blue  <= "1001";
         end if;
         
         if (pixel_col >= 580 and pixel_col <= 590 and pixel_row >= 102 and pixel_row <= 163) then 
@@ -856,10 +863,10 @@ begin
             blue  <= "1111";
         end if;
         
-        if (pixel_col >= 591 and pixel_col <= 594 and pixel_row >= 102 and pixel_row <= 163) then
-            red   <= "1100";
-            green <= "1100";
-            blue  <= "1100";
+        if (pixel_col >= 591 and pixel_col <= 594 and pixel_row >= 102 and pixel_row <= 163) then --grey bar
+            red   <= "1001";
+            green <= "1001";
+            blue  <= "1001";
         end if;
                 
         if (pixel_col >= 595 and pixel_col <= 605 and pixel_row >= 102 and pixel_row <= 163) then 
@@ -868,10 +875,10 @@ begin
             blue  <= "1111";
         end if;
         
-        if (pixel_col >= 606 and pixel_col <= 609 and pixel_row >= 102 and pixel_row <= 163) then
-            red   <= "1100";
-            green <= "1100";
-            blue  <= "1100";
+        if (pixel_col >= 606 and pixel_col <= 609 and pixel_row >= 102 and pixel_row <= 163) then --grey bar
+            red   <= "1001";
+            green <= "1001";
+            blue  <= "1001";
         end if;
         
         if (pixel_col >= 610 and pixel_col <= 620 and pixel_row >= 102 and pixel_row <= 163) then 
@@ -880,10 +887,10 @@ begin
             blue  <= "1111";
         end if;
         
-        if (pixel_col >= 621 and pixel_col <= 624 and pixel_row >= 102 and pixel_row <= 163) then
-            red   <= "1100";
-            green <= "1100";
-            blue  <= "1100";
+        if (pixel_col >= 621 and pixel_col <= 624 and pixel_row >= 102 and pixel_row <= 163) then --grey bar
+            red   <= "1001";
+            green <= "1001";
+            blue  <= "1001";
         end if;
         
         if (pixel_col >= 625 and pixel_col <= 635 and pixel_row >= 102 and pixel_row <= 163) then 
@@ -891,6 +898,210 @@ begin
             green <= "1111";
             blue  <= "1111";
         end if;
+        
+        --***
+        -- declare signal and set slot_visible = '0'
+        if (pixel_col >= 8 and pixel_col <= 71 and pixel_row >= 230 and pixel_row <= 293) then
+            slot_visible <= '1';
+            red <= "1010"; --grey
+            green <= "1010";
+            blue <= "1010";
+        end if;
+
+
+        if (pixel_col >= 8 and pixel_col <= 71 and pixel_row >= 354 and pixel_row <= 417) then
+            slot_visible <= '1';
+            red <= "1010"; --grey
+            green <= "1010";
+            blue <= "1010";
+        end if;
+
+        if (pixel_col >= 8 and pixel_col <= 71 and pixel_row >= 478 and pixel_row <= 541) then
+            slot_visible <= '1';
+            red <= "1010"; --grey
+            green <= "1010";
+            blue <= "1010";
+        end if;
+
+        if (pixel_col >= 728 and pixel_col <= 791 and pixel_row >= 230 and pixel_row <= 293) then
+            slot_visible <= '1';
+            red <= "1010"; --grey
+            green <= "1010";
+            blue <= "1010";
+        end if;
+
+        if (pixel_col >= 728 and pixel_col <= 791 and pixel_row >= 354 and pixel_row <= 417) then
+            slot_visible <= '1';
+            red <= "1010"; --grey
+            green <= "1010";
+            blue <= "1010";
+        end if;
+
+        if (pixel_col >= 728 and pixel_col <= 791 and pixel_row >= 478 and pixel_row <= 541) then
+            slot_visible <= '1';
+            red <= "1010"; --grey
+            green <= "1010";
+            blue <= "1010";
+        end if;
+
+        if (pixel_col >= 160 and pixel_col <= 223 and pixel_row >= 102 and pixel_row <= 166) then
+            slot_visible <= '1';
+            red <= "1010"; --grey
+            green <= "1010";
+            blue <= "1010";
+        end if;
+
+        if (pixel_col >= 285 and pixel_col <= 348 and pixel_row >= 102 and pixel_row <= 166) then
+            slot_visible <= '1';
+            red <= "1010"; --grey
+            green <= "1010";
+            blue <= "1010";
+        end if;
+
+        if (pixel_col >= 411 and pixel_col <= 474 and pixel_row >= 102 and pixel_row <= 166) then
+            slot_visible <= '1';
+            red <= "1010"; --grey
+            green <= "1010";
+            blue <= "1010";
+        end if;
+        
+        ---------------------------
+        if (pixel_col >= 8 and pixel_col <= 71 and pixel_row >= 230 and pixel_row <= 293) then
+            if (pixel_col <= 11 OR pixel_col >= 68 OR pixel_row <= 233 OR pixel_row >= 290) then
+            slot_visible <= '1';
+                if near_buns = '1' then
+                    red <= "1111"; --yellow
+                    green <= "1111";
+                    blue <= "0000";
+                else 
+                    red <= "1111"; --white
+                    green <= "1111";
+                    blue <= "1111";
+                end if;
+            end if;
+        end if;
+        
+        if (pixel_col >= 8 and pixel_col <= 71 and pixel_row >= 354 and pixel_row <= 417) then
+            if (pixel_col <= 11 OR pixel_col >= 68 OR pixel_row <= 357 OR pixel_row >= 414) then
+            slot_visible <= '1';
+                if near_patty = '1' then
+                    red <= "1111"; --yellow
+                    green <= "1111";
+                    blue <= "0000";
+                else 
+                    red <= "1111"; --white
+                    green <= "1111";
+                    blue <= "1111";
+                end if;
+            end if;
+        end if;
+        
+        if (pixel_col >= 8 and pixel_col <= 71 and pixel_row >= 478 and pixel_row <= 541) then
+            if (pixel_col <= 11 OR pixel_col >= 68 OR pixel_row <= 481 OR pixel_row >= 538) then
+            slot_visible <= '1';
+                if near_plate = '1' then
+                    red <= "1111"; --yellow
+                    green <= "1111";
+                    blue <= "0000";
+                else 
+                    red <= "1111"; --white
+                    green <= "1111";
+                    blue <= "1111";
+                end if;
+            end if;
+        end if;
+        
+         if (pixel_col >= 728 and pixel_col <= 791 and pixel_row >= 230 and pixel_row <= 293) then
+            if (pixel_col <= 731 OR pixel_col >= 788 OR pixel_row <= 233 OR pixel_row >= 290) then
+            slot_visible <= '1';
+                if near_cheese = '1' then
+                    red <= "1111"; --yellow
+                    green <= "1111";
+                    blue <= "0000";
+                else 
+                    red <= "1111"; --white
+                    green <= "1111";
+                    blue <= "1111";
+                end if;
+            end if;
+        end if;
+        
+        if (pixel_col >= 728 and pixel_col <= 791 and pixel_row >= 354 and pixel_row <= 417) then
+            if (pixel_col <= 731 OR pixel_col >= 788 OR pixel_row <= 357 OR pixel_row >= 414) then
+            slot_visible <= '1';
+                if near_potato = '1' then
+                    red <= "1111"; --yellow
+                    green <= "1111";
+                    blue <= "0000";
+                else 
+                    red <= "1111"; --white
+                    green <= "1111";
+                    blue <= "1111";
+                end if;
+            end if;
+        end if;
+        
+        if (pixel_col >= 728 and pixel_col <= 791 and pixel_row >= 478 and pixel_row <= 541) then
+            if (pixel_col <= 731 OR pixel_col >= 788 OR pixel_row <= 481 OR pixel_row >= 538) then
+            slot_visible <= '1';
+                if near_trash = '1' then
+                    red <= "1111"; --yellow
+                    green <= "1111";
+                    blue <= "0000";
+                else 
+                    red <= "1111"; --white
+                    green <= "1111";
+                    blue <= "1111";
+                end if;
+            end if;
+        end if;
+        
+        if (pixel_col >= 160 and pixel_col <= 223 and pixel_row >= 102 and pixel_row <= 166) then
+            if (pixel_col <= 163 OR pixel_col >= 220 OR pixel_row <= 105 OR pixel_row >= 163) then
+            slot_visible <= '1';
+                if near_cola = '1' then
+                    red <= "1111"; --yellow
+                    green <= "1111";
+                    blue <= "0000";
+                else 
+                    red <= "1111"; --white
+                    green <= "1111";
+                    blue <= "1111";
+                end if;
+            end if;
+        end if;
+        
+        if (pixel_col >= 285 and pixel_col <= 348 and pixel_row >= 102 and pixel_row <= 166) then
+            if (pixel_col <= 288 OR pixel_col >= 345 OR pixel_row <= 105 OR pixel_row >= 163) then
+            slot_visible <= '1';
+                if near_sprite = '1' then
+                    red <= "1111"; --yellow
+                    green <= "1111";
+                    blue <= "0000";
+                else 
+                    red <= "1111"; --white
+                    green <= "1111";
+                    blue <= "1111";
+                end if;
+            end if;
+        end if;
+        
+        if (pixel_col >= 411 and pixel_col <= 474 and pixel_row >= 102 and pixel_row <= 166) then
+            if (pixel_col <= 414 OR pixel_col >= 471 OR pixel_row <= 105 OR pixel_row >= 163) then
+            slot_visible <= '1';
+                if near_fryer = '1' then
+                    red <= "1111"; --yellow
+                    green <= "1111";
+                    blue <= "0000";
+                else 
+                    red <= "1111"; --white
+                    green <= "1111";
+                    blue <= "1111";
+                end if;
+            end if;
+        end if;
+        --***
+    
 
         if buns_visible = '1' then
             red   <= buns_r;
@@ -1059,31 +1270,32 @@ process(v_sync)
     variable b_done_v  : STD_LOGIC;
 begin
     if rising_edge(v_sync) then
+    
+    --SW0 and SW1 toggle to select Chef
         if game_state = INTRO_SELECT then
-        -- if SW1 toggles up, choose CHEFF on the left
-        if sw1 = '1' and last_sw1 = '0' then
-            selected_chef <= SELECT_CHEFF;
-            chef_selected <= '1';
-    
-        -- if SW0 toggles up, choose CHEFM on the right
-        elsif sw0 = '1' and last_sw0 = '0' then
-            selected_chef <= SELECT_CHEFM;
-            chef_selected <= '1';
-        end if;
-    
-        -- SW2 starts game only after a chef was selected
-        if sw2 = '1' and last_sw2 = '0' and chef_selected = '1' then
-            game_state <= GAME_PLAYING;
-    
-            -- reset game
-            score <= (others => '0');
-            current_order <= 0;
-            item_a_done <= '0';
-            item_b_done <= '0';
-            held_item <= HOLD_NONE;
-            time_left <= 180;
-            frame_count <= 0;
-        end if;
+        -- if SW1 toggles on or off, choose CHEFF on the left
+            if (sw1 = '1' and last_sw1 = '0') OR (sw1 = '0' and last_sw1 = '1') then
+                selected_chef <= SELECT_CHEFF;
+                chef_selected <= '1';           
+        
+            -- if SW0 toggles on or off, choose CHEFM on the right
+            elsif (sw0 = '1' and last_sw0 = '0') OR (sw0 = '0' and last_sw0 = '1') then
+                selected_chef <= SELECT_CHEFM;
+                chef_selected <= '1';
+            
+            -- SW2 starts game only after a chef was selected, toggle SW2 to start game
+            elsif ((sw2 = '1' and last_sw2 = '0') OR (sw2 = '0' and last_sw2 = '1')) and chef_selected = '1' then                
+                game_state <= GAME_PLAYING;
+                    
+                -- reset game
+                score <= (others => '0');
+                current_order <= 0;
+                item_a_done <= '0';
+                item_b_done <= '0';
+                held_item <= HOLD_NONE;
+                time_left <= 180;
+                frame_count <= 0;
+            end if; 
         
         elsif game_state = GAME_PLAYING then
             -- timer only runs during gameplay
@@ -1224,8 +1436,8 @@ begin
             end if;
 
         elsif game_state = GAME_OVER or game_state = GAME_WIN then
-            --Turn SW2 off to return to intro screen
-            if sw2 = '0' then
+            --In game over state, toggle SW2 to return to intro screen
+            if (sw2 = '1' and last_sw2 = '0') OR (sw2 = '0' and last_sw2 = '1') then
                 game_state <= INTRO_SELECT;
                 chef_selected <= '0';
             end if;
