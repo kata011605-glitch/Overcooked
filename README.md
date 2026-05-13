@@ -11,27 +11,25 @@ This project is a single-player Overcooked-style cooking game implemented in VHD
 
 The player controls a chef character in a kitchen layout. The goal is to pick up ingredients, prepare food, and complete the order cards before the timer runs out. The kitchen contains ingredient stations, drink stations, a cutting board area, a fryer station, a serving counter, plates, and a trash can.
 
-<img width="1441" height="850" alt="IMG_4161" src="https://github.com/user-attachments/assets/4f1594ca-eddf-46b7-b1a8-f7b08ce7b474" />
-
+<img width="1718" height="1279" alt="139c79df3c834e425dd917b8602b420c" src="https://github.com/user-attachments/assets/eefdbfd5-88d7-4396-bc97-6bc6219e816d" />
 
 The player moves the chef near an item or station using the four directional buttons and presses the center button to interact. Depending on the chef’s location and held item, the player can pick up items, combine ingredients, serve food, or discard an item.
 
 The game includes an intro screen where the player selects between two chef characters. During gameplay, only the selected chef appears on the screen.
 
-<img width="3553" height="2387" alt="femcharsel" src="https://github.com/user-attachments/assets/9c3fef91-165c-4f3d-9720-30c3f4d5e141" />
+<img width="1736" height="1279" alt="144717c98008fef56e640a487f47f316" src="https://github.com/user-attachments/assets/d8d06c17-6cf8-4906-8c90-5a65d04c6dcc" />
 
-
+### FSM
 The game has four main states:
-```INTRO_SELECT → GAME_PLAYING → GAME_WIN / GAME_OVER```
+`INTRO_SELECT` → `GAME_PLAYING` → `GAME_WIN` / `GAME_OVER`
 
-In ```INTRO_SELECT```, the player selects a character by toggling Switch 0 or Switch 1 on the board, then starts the game using Switch 2. In ```GAME_PLAYING```, the timer runs and the player completes orders. If all orders are completed before the timer runs out, the game enters ```GAME_WIN```. If the timer reaches zero before all orders are completed, the game enters ```GAME_OVER```.
-<img width="2138" height="1290" alt="IMG_4159" src="https://github.com/user-attachments/assets/357455d8-c016-4303-b677-2180ba77ce5c" />
-<img width="2104" height="1258" alt="IMG_4162" src="https://github.com/user-attachments/assets/ba54f7a9-1fb5-4cdf-8cf3-1a8ac9754864" />
+<img width="1137" height="470" alt="b16a977f8b09f5158ef0b022f39c1b5a" src="https://github.com/user-attachments/assets/c9a8c8b4-9763-4409-bb23-df16247f369e" />
 
 This project uses finite state machine logic for game flow and Boolean logic for collision and interaction detection. Signals such as ```near_buns```, ```near_cheese```, ```near_fryer```, ```near_counter```, and ```near_trash``` determine whether the chef is close enough to interact with a station. When the chef enters the interaction boundary for a station, the border around that station changes from white to yellow to show that the action button can be used.
 
-### FSM
-<img width="1280" height="720" alt="Slide1" src="https://github.com/user-attachments/assets/c1f41d06-57ac-4801-ad48-331308583dd6" />
+In `INTRO_SELECT`, the player selects a character by toggling Switch 0 or Switch 1 on the board, then starts the game using Switch 2. In `GAME_PLAYING`, the timer runs and the player completes orders. If all orders are completed before the timer runs out, the game enters ```GAME_WIN```. If the timer reaches zero before all orders are completed, the game enters `GAME_OVER`.
+<img width="1133" height="862" alt="6b03a5677321cedc7f7587a191fbf7bd" src="https://github.com/user-attachments/assets/7423eb6d-8915-4e24-9751-f11851c9ed7a" />
+<img width="1727" height="1279" alt="ac086343d5d05781d84274a1fc223510" src="https://github.com/user-attachments/assets/abb320ab-9391-4008-ba17-07b6ba108fb1" />
 
 
 
@@ -46,6 +44,18 @@ The game is controlled using the Nexys board buttons and switches.
 - Switch SW1: female charecter select on the left
 - Switch SW2: game start/game back to character selection after game over
 Toggling switch ```SW0``` selects the male character on the right side of the character selection screen. Toggling switch ```SW1``` selects the female character on the left side. Toggling switch SW2 starts the game after a character is selected. After the game ends, toggling SW2 returns the game back to the character selection screen.
+
+### How to Play
+
+The player completes orders by picking up ingredients, combining them, and serving the finished food at the serving counter. The action button, `BTNC` / `BTN0`, is used to pick up items, combine ingredients, use stations, serve completed orders, or discard items at the trash.
+
+The basic combinations used in the game are shown below:
+
+<img width="800" height="597" alt="e605c7b19e3287fa088ac3727483ed2c" src="https://github.com/user-attachments/assets/4455dfc5-b1c1-4afb-9fe6-813a9a6a3631" />
+
+For burger-related items, the ingredient order does not matter. For example, buns, cheese, and patty can still create the same final burger item even if the player picks up the ingredients in a different sequence.
+
+The chef must move near the correct station until the station border turns yellow, then press BTNC/BTN0 to interact. Completed food items can be served at the counter if they match the current order card.
 
 ### Required Hardware/Software
 - Digilent Nexys A7-100T FPGA Board
@@ -165,6 +175,8 @@ This visual highlight was used to assist players in determining if the chef was 
 Held item placement was tested by mapping separate sprite instances to the chef’s hand. Since the sprite drawing modules use the top-left pixel as the placement reference, the held item coordinates had to be offset from the chef sprite’s top-left position. For drinks, the hand position was set using `hand_drink_x <= chefm_x + 32` and `hand_drink_y <= chefm_y + 99`. For plate-based food items, the hand position was set using `hand_plate_x <= chefm_x + 60` and `hand_plate_y <= chefm_y + 102`. These offsets were calculated by comparing the chef sprite’s top-left border to the intended hand location, then subtracting or adjusting based on where the food sprite’s own top-left pixel should start.
 
 An example calculation for `hand_plate_y` is shown to explain why the value 102 was used in `hand_plate_y <= chefm_y + 102`. In this calculation, `chefm_y` represents the top y-coordinate of the chef sprite, and chefm_x represents the left x-coordinate. Since each sprite is placed using its top-left coordinate, the held item needs an offset from the chef’s top-left corner to appear correctly in the chef’s hand.
+
+<img width="475" height="306" alt="a96e24b5cdebba61a54649d23e32c8db" src="https://github.com/user-attachments/assets/e0366fa7-3273-4e00-9281-f178e4815fbf" />
 
 All the food sprites shared the same general size and top-left placement style, they had similar alignment requirements when being mapped to the chef’s hand. The drink sprites also shared their own alignment requirements. Therefore, only two hand-position mappings were needed: one for drinks and one for plate-based food items because of plate pixel consistency across drawings. This kept the held-item display simpler while still allowing different food and drink sprites to appear correctly in the chef’s hand.
 
