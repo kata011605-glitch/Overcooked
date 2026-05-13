@@ -7,14 +7,14 @@ Kaitlyn Adams, Malia Chopra, and Zihan Sun
 We pledge our honor that we have abided by the Stevens Honor System.
 
 ## Behavior description
-This project is a single player Overcooked-style cooking game implemented in VHDL on the Digilent Nexys A7-100T FPGA board. The game is displayed on a display or monitor using VGA output through a VGA-to-HDMI adapter.
+This project is a single-player Overcooked-style cooking game implemented in VHDL on the Digilent Nexys A7-100T FPGA board. The game is displayed on a TV or monitor using VGA output through a VGA-to-HDMI adapter.
 
-The player can control a chef character in a kitchen layout. The goal is to pick up ingredients, prepare food, and complete the order cards before the timer runs out. The kitchen contains ingredient stations, drinks, a cut board and fryer station, a serving counter, plates, and a trash can.
+The player controls a chef character in a kitchen layout. The goal is to pick up ingredients, prepare food, and complete the order cards before the timer runs out. The kitchen contains ingredient stations, drink stations, a cutting board area, a fryer station, a serving counter, plates, and a trash can.
 
 <img width="1441" height="850" alt="IMG_4161" src="https://github.com/user-attachments/assets/4f1594ca-eddf-46b7-b1a8-f7b08ce7b474" />
 
 
-The player can move the chef near an item or station using 4 directional buttons and press the center button to interact. Depending on the chef’s location and held item, the player can pick up items, combine ingredients, serve food, or discard an item.
+The player moves the chef near an item or station using the four directional buttons and presses the center button to interact. Depending on the chef’s location and held item, the player can pick up items, combine ingredients, serve food, or discard an item.
 
 The game includes an intro screen where the player selects between two chef characters. During gameplay, only the selected chef appears on the screen.
 
@@ -24,11 +24,11 @@ The game includes an intro screen where the player selects between two chef char
 The game has four main states:
 ```INTRO_SELECT → GAME_PLAYING → GAME_WIN / GAME_OVER```
 
-In ```INTRO_SELECT```, the player can choose a character toggling Switch 0 and Switch 1 on the board and start the game by turning on Switch 2. In ```GAME_PLAYING```, the timer runs and the player completes orders. If all orders are completed before the timer runs out, the game enters ```GAME_WIN```. If the timer reaches zero before all orders are completed, the game enters ```GAME_OVER```.
+In ```INTRO_SELECT```, the player selects a character by toggling Switch 0 or Switch 1 on the board, then starts the game using Switch 2. In ```GAME_PLAYING```, the timer runs and the player completes orders. If all orders are completed before the timer runs out, the game enters ```GAME_WIN```. If the timer reaches zero before all orders are completed, the game enters ```GAME_OVER```.
 <img width="2138" height="1290" alt="IMG_4159" src="https://github.com/user-attachments/assets/357455d8-c016-4303-b677-2180ba77ce5c" />
 <img width="2104" height="1258" alt="IMG_4162" src="https://github.com/user-attachments/assets/ba54f7a9-1fb5-4cdf-8cf3-1a8ac9754864" />
 
-This project uses finite state machine logic for the states of game flow and Boolean logic for collision and interaction detection. For example, signals such as near_buns, near_cheese, near_fryer, near_counter, and near_trash determine whether the chef is close enough to interact with a station.
+This project uses finite state machine logic for game flow and Boolean logic for collision and interaction detection. Signals such as ```near_buns```, ```near_cheese```, ```near_fryer```, ```near_counter```, and ```near_trash``` determine whether the chef is close enough to interact with a station. When the chef enters the interaction boundary for a station, the border around that station changes from white to yellow to show that the action button can be used.
 
 ### FSM
 <img width="1280" height="720" alt="Slide1" src="https://github.com/user-attachments/assets/c1f41d06-57ac-4801-ad48-331308583dd6" />
@@ -36,15 +36,16 @@ This project uses finite state machine logic for the states of game flow and Boo
 
 
 ### Controls
-
+The game is controlled using the Nexys board buttons and switches.
 - BTNU: move character up
 - BTND: move character down
 - BTNL: move character left
 - BTNR: move character right
-- BTNC (btn0): pick up and put down
+- BTNC (btn0): action button for picking up, combining, serving, or discarding items
 - Switch SW0: male charecter select on the right
 - Switch SW1: female charecter select on the left
-- Switch SW2: game start when flipped up / game back to character selection when game over and flipped down
+- Switch SW2: game start/game back to character selection after game over
+Toggling switch ```SW0``` selects the male character on the right side of the character selection screen. Toggling switch ```SW1``` selects the female character on the left side. Toggling switch SW2 starts the game after a character is selected. After the game ends, toggling SW2 returns the game back to the character selection screen.
 
 ### Required Hardware/Software
 - Digilent Nexys A7-100T FPGA Board
@@ -54,29 +55,38 @@ This project uses finite state machine logic for the states of game flow and Boo
 - TV or Monitor with an HDMI input
 - AMD Vivado™ Design Suite
 
-The more detailed the better – you all know how much I love a good finite state machine and Boolean logic, so those could be some good ideas if appropriate for your system. If not, some kind of high level block diagram showing how different parts of your program connect together and/or showing how what you have created might fit into a more complete system could be appropriate instead.
+
+### System Architecture
+The top-level module, ```overcooked.vhd```, connects the FPGA hardware inputs and outputs to the game logic. It receives the board clock, push buttons, switches, VGA outputs, and 7-segment display outputs. The VGA synchronization module generates the current ```pixel_row``` and ```pixel_col``` values used to draw the screen. The top-level module also updates the chef’s x and y position based on the directional buttons and generates the ```shuffle_sel``` value used for order sequence selection.
+
+The ```cookfood.vhd``` module contains the main gameplay logic. It receives the chef position, current pixel location, button and switch inputs, and shuffle value. It controls the game state, selected character, held item, station detection, order completion, score, timer, and final RGB output.
+
+Individual sprite display modules are used to draw each item or character. Each sprite module checks whether the current pixel position falls inside the sprite’s coordinate range. If the pixel is part of the sprite, the module outputs RGB values and sets its visible signal high. The main cookfood.vhd module layers these visible signals together to create the final game display.
 
 [Full Video of Game Play](https://youtu.be/U1lmlOHkiJk)
 
 ## Summary of steps
-1. Create a new RTL project called _overcooked_ in Vivado Quick Start
-     - Create 27 new files using the names listed in under Final_Project.srcs
-     - Create a new constraint file of file type XDC called setup.xdc
-     - Choose Nexys A7-100T board for the project
-     - Click 'Finish'
-     - Click design sources and copy the VHDL code for each file
-     - Click constraints and copy the code from setup.xdc
-3. Run synthesis
-4. Run implementation
-5. Generate bitstream, open hardware manager, and program device
-6. Play the game!
+1. Create a new RTL project called _overcooked_ in Vivado
+     - Download Final_Project files
+     - Add the downloaded VHDL source and constraint files from the repository into the Vivado project.
+2. Select Digilent Nexys A7-100T board as the target FPGA board
+3. Connect the Nexys A7-100T board to the computer using a micro-USB cable
+4. Connect the VGA-to-HDMI adapter to the VGA port on the Nexys A7-100T board. Then connect an HDMI cable from the adapter to a TV or monitor. Set the TV or monitor to the correct HDMI input
+5. Run Synthesis
+6. Run Implementation
+7. Generate Bitstream
+8. Open Hardware Manager -> Open Target -> Auto Connect to device
+9. Program Device and select the generated bitstream file
+10. Play the game!
 <img width="1280" height="720" alt="Slide1" src="https://github.com/user-attachments/assets/7a1e8fa4-f9ad-4950-a212-5c0dcb2247b5" />
 
-A summary of the steps to get the project to work in Vivado and on the Nexys board (5 points of the Submission category)
-
-Description of inputs from and outputs to the Nexys board from the Vivado project (10 points of the Submission category)
 
 ### Inputs and Outputs (cookfood.vhd)
+The project uses the Nexys A7-100T buttons and switches as the main player inputs. The directional buttons control chef movement: ```BTNU``` moves up, ```BTND``` moves down, ```BTNL``` moves left, and ```BTNR``` moves right. ```BTNC``` (```BTN0```) is used as the action button for picking up items, combining ingredients, serving completed orders, and discarding items. The switches are used for game setup and state control: ```SW0``` selects the male chef, ```SW1``` selects the female chef, and ```SW2``` starts the game after a character is selected or returns to character selection after the game ends.
+
+The main outputs are the VGA display signals and the 7-segment score display. ```VGA_red```, ```VGA_green```, and ```VGA_blue``` send the color values for each pixel, and ```VGA_hsync``` and ```VGA_vsync``` control the VGA timing. These signals allow the game screen to appear on a monitor through the VGA-to-HDMI adapter. The score is sent to the Nexys board 7-segment display through SEG7_anode and SEG7_seg. Score is displayed in binary. Each completed order increases the score by one, and completing all eight orders displays a score of 00001000. Restarting the game would reset the score. 
+
+Internally, the gameplay module also uses signals such as ```pixel_row```, ```pixel_col```, ```chefm_x```, ```chefm_y```, and ```shuffle_sel```. They connect the VGA system, chef movement, and order shuffle logic to the main game module, allowing ```cookfood.vhd``` to draw the screen, check station boundaries, update the held item, complete orders, and output the final RGB color values for the display.
 
 ```VHDL
 entity cookfood is
@@ -100,35 +110,84 @@ entity cookfood is
 end cookfood;
 ```
 
-#### Inputs
-- `v_sync`, `pixel_row`, `pixel_col1`: VGA display
-- `chefm_x`, `chefm_y`: character movement
-- `action`: holding items
-- `sw0`, `sw1`, `sw2`: switches to pick characters
-- `shuffle_sel`: random sequence of orders
-
-#### Outputs
-- `red`, `green`, `blue`: VGA color display
-- `score_out`: scoring on Nexys board
+#### Modi
 
 As part of this category, if using starter code of some kind (discussed below), you should add at least one input and at least one output appropriate to your project to demonstrate your understanding of modifying the ports of your various architectures and components in VHDL as well as the separate .xdc constraints file.
 
 Images and/or videos of the project in action interspersed throughout to provide context (10 points of the Submission category)
 
-## “Modifications” (15 points of the Submission category)
+## Modifications 
+This project was built from the Lab 6 Pong structure. The files ```pong.vhd```, ```bat_n_ball.vhd```, ```vga_sync.vhd```, ```pong.xdc```, ```leddec.vhd```, ```clk_wiz_0.vhd```, and ```clk_wiz_0_clk_wiz.vhd``` were reused from Lab 6. Some aspects of ```pong.vhd``` were also used as a baseline. ```pong.vhd``` was renamed to ```overcooked.vhd```, ```bat_n_ball.vhd``` to ```cookfood.vhd``` and ```pong.xdc``` to ```setup.xdc```.
 
-If building on an existing lab or expansive starter code of some kind, describe your “modifications” – the changes made to that starter code to improve the code, create entirely new functionalities, etc. Unless you were starting from one of the labs, please share any starter code used as well, including crediting the creator(s) of any code used. It is perfectly ok to start with a lab or other code you find as a baseline, but you will be judged on your contributions on top of that pre-existing code!
+The original Pong project used coordinate-based contact logic between the ball and bat. In this project, that idea was modified into proximity detection between the chef and kitchen stations. Instead of checking whether a ball touches the bat, the game checks whether the chef’s center point is inside the interaction boundary of an item station, fryer, trash can, or serving counter.
 
-If you truly created your code/project from scratch, summarize that process here in place of the above.
+The original Pong bat movement was also expanded. The starter code mainly used vertical movement, but this project adds both x-direction and y-direction movement so the chef can move around the kitchen layout. Therefore, ```BTNU``` and ```BTND``` were added in the constraints file for vertical movement control. 
 
-We used `vga_sync.vhd`, `setup.vhd`, `leddec.vhd`, `clk_wiz_0.vhd`, and `clk_wiz_0_clk_wiz.vhd` from Lab 6. We also used some aspects of `pong.vhd` from Lab 6. We used the y movement of that bat to move the chef, but added an x movement component so the chef could go anywhere. We also kept the scoring component from Lab 6. Every time an order is completed, the counter on the Nexys board counts up by 1 in binary.
+_setup.xdc_:
+```set_property -dict { PACKAGE_PIN N17 IOSTANDARD LVCMOS33 } [get_ports { btn0 }]; #IO_L9P_T1_DQS_14 Sch=btnc
+set_property -dict { PACKAGE_PIN P17 IOSTANDARD LVCMOS33 } [get_ports { btnl }]; #IO_L12P_T1_MRCC_14 Sch=btnl
+set_property -dict { PACKAGE_PIN M17 IOSTANDARD LVCMOS33 } [get_ports { btnr }]; #IO_L10N_T1_D15_14 Sch=btnr
+set_property -dict { PACKAGE_PIN M18 IOSTANDARD LVCMOS33 } [get_ports { btnu }]; #ADDED btnu top button
+set_property -dict { PACKAGE_PIN P18 IOSTANDARD LVCMOS33 } [get_ports { btnd }]; #ADDED btnd bottom button
+```
+
+The score display from Lab 6 was kept in binary and modified for this game, so that each time an order is completed, the score increases by 1 and is displayed on the Nexys board in binary. Score reaches 00001000 when all 8 orders are completed.
+
+Other features that were created for this game includes character selection, item pickup, food combining, held item display, order tracking, order shuffling, a 3-minute countdown timer, station highlighting, trash logic, serving logic, and win/game-over message screens.
+
+An order shuffle system was also added. A 3-bit counter, ```rand_count```, runs continuously in the top-level module. When SW2 starts a new game, the current counter value is captured as shuffle_sel. This value selects one of eight predefined order sequences, so the displayed order list changes between game runs to simulate a "random" shuffle.
 
 ## Summary
 Conclude with a summary of the process itself – who was responsible for what components (preferably also shown by each person contributing to the github repository!), the timeline of work completed, any difficulties encountered and how they were solved, etc. (10 points of the Submission category)
 
-We started by working on the graphics and the placement of the items within our diagram. This took a couple iterations to find 10 places that the chef could reach within the frame. The sprites were created by making a pixelated drawing and running it through a code to give us the palette indexes. The code was generated by AI. We then worked on the movement of the chef in the game using the Nexys board buttons. Next, we worked on making the chef pick up and put down ingredients and carry them through the game. We used a boolean logic for this because it allowed for different cases to be implemented at the same time (ex. you are able to make the burger in any order). Then, we worked on the randomization of orders. Lastly, we added the timer on the top of the order cards and implemented the highlighted items when the chef is close. 
+### Graphics and Sprite Creation
+The project started with the graphics design and placement of items within the kitchen layout. The sprites were created by making pixelated drawings for the chef characters, ingredients, drinks, and prepared foods. These pixelated drawings were then downloaded as PNG images and converted into CSV palette-index data in VS Code using the help of AI (ChatGPT). The CSV values were then used to create VHDL sprite display modules, where each palette index mapped to a specific RGB color value, allowing the drawn pixel-art sprites to display on the FPGA screen.
 
-With our project, there are a few bugs. If you toggle switch 2 in the state `GAME_PLAYING`, the sequence of the orders changes. Also, if the timer runs out when you have an item in your hand, the state switches to `GAME_OVER`. However, the item can still be moved by the controls on the Nexys board.
+One plate-based food sprite was drawn first and used as the base template for the other plate-based items. The remaining food sprites were created by copying that original pixel-drawing format and modifying the details for each item. 
 
-## Code
-And of course, the code itself separated into appropriate .vhd and .xdc files. (50 points of the Submission category; based on the code working, code complexity, quantity/quality of modifications, etc.)
+### Station Placement and Interaction Boundaries
+After the main sprites were created, the item stations were placed on the tables in the kitchen layout. Item placement required calculating and testing the pixel spacing within the table areas. The food sprites were designed to visually match the size of the chef’s hand so that held items would look proportional during gameplay. Most food sprites were originally drawn as 32 × 32 pixel images, while the drink sprites and fryer were drawn as 64 × 64 pixel images. The food sprites were scaled up by 2 for display, and the chef sprites were also scaled by 2 so the proportions stayed consistent.
+
+The pictures shown on the screen are handled as sprite instances in VHDL. Each sprite display module acts like a reusable drawing template. For example, `buns_display`, `cola_display`, `chefm_display`, and other sprite modules receive the current `pixel_row`, `pixel_col`, and a placement coordinate `icon_x` and `icon_y`. If the current pixel falls inside that sprite’s area, the module outputs the correct RGB color and sets its visible signal to '1'.
+
+The same sprite module can be reused in multiple places by instantiating it with different coordinates. For example, `cola_display` is used once for the cola station and again for the cola held in the chef’s hand. The order display also reuses these item sprite modules to show the food and drink icons on the order cards. In that case, the order system sends an item code, such as burger, fries, Sprite, or cola, and the display logic chooses the matching sprite to draw in the order slot. The station sprites use fixed icon_x and icon_y positions, while the held-item sprites use hand coordinates such as hand_drink_x, hand_drink_y, hand_plate_x, and hand_plate_y, so they move with the chef. The order card sprites use their own fixed order-slot coordinates. This allowed the same sprite artwork to be reused without conflicts.
+
+After placing the stations, interaction boundaries were defined around each item or station using the chef’s center point, calculated as `chefm_x + 98` and `chefm_y + 98`. This value was used because the chef sprite was originally 98 × 98 pixels and then scaled by 2 for display, making the center point approximately 98 pixels from the top-left coordinate. Using the chef’s center point worked better than using the top-left corner because it more accurately represented where the chef was standing relative to each station and allowed for easier calculations later on for interaction zone calculations.
+
+Most interaction zones were around 60–70 pixels wide, but the exact x and y thresholds varied depending on the station. For example, the spacing between cola and Sprite was different from the spacing between Sprite and the fryer station, so each boundary had to be adjusted separately. The goal was to make the interaction zones close enough so that the chef visually appears next to the station, but not so large that nearby stations accidentally trigger at the same time. 
+
+### Station Highlighting and Action Logic
+When a near-item condition is satisfied, such as `near_buns`, `near_cola`, `near_fryer`, or `near_counter`, the border around that specific station changes from white to yellow, similar to the character selection border highlight. 
+
+This visual highlight was used to assist players in determining if the chef was inside the correct interaction boundary for action logic, including picking up ingredients, combining items, using the fryer, serving orders, and discarding items at the trash. For example, if the chef is holding nothing and `near_cola = '1'`, pressing the action button (BTN0/BTNC) changes the held item to `HOLD_COLA`. If the chef is holding a potato and `near_fryer = '1'`, pressing the action button changes the held item to `HOLD_FRIES`
+
+### Held Item Alignment
+Held item placement was tested by mapping separate sprite instances to the chef’s hand. Since the sprite drawing modules use the top-left pixel as the placement reference, the held item coordinates had to be offset from the chef sprite’s top-left position. For drinks, the hand position was set using `hand_drink_x <= chefm_x + 32` and `hand_drink_y <= chefm_y + 99`. For plate-based food items, the hand position was set using `hand_plate_x <= chefm_x + 60` and `hand_plate_y <= chefm_y + 102`. These offsets were calculated by comparing the chef sprite’s top-left border to the intended hand location, then subtracting or adjusting based on where the food sprite’s own top-left pixel should start.
+
+An example calculation for `hand_plate_y` is shown to explain why the value 102 was used in `hand_plate_y <= chefm_y + 102`. In this calculation, `chefm_y` represents the top y-coordinate of the chef sprite, and chefm_x represents the left x-coordinate. Since each sprite is placed using its top-left coordinate, the held item needs an offset from the chef’s top-left corner to appear correctly in the chef’s hand.
+
+All the food sprites shared the same general size and top-left placement style, they had similar alignment requirements when being mapped to the chef’s hand. The drink sprites also shared their own alignment requirements. Therefore, only two hand-position mappings were needed: one for drinks and one for plate-based food items because of plate pixel consistency across drawings. This kept the held-item display simpler while still allowing different food and drink sprites to appear correctly in the chef’s hand.
+
+### Chef Position Signals
+The signal names `chefm_x` and `chefm_y` were kept throughout the project even after adding the female chef sprite. The male chef was implemented first, so the original movement and position signals were based on `chefm_x` and `chefm_y`. After the female chef was added, both chef sprites were mapped using the same x and y position signals because their hand locations were aligned to the same relative pixel position. Keeping the original signal names avoided having to rename the movement and display logic across multiple files.
+
+### Movement and Gameplay Logic
+Movement, item pickup and item carrying logic were the most important implementations for the game. Boolean logic was used for the interaction system because it allowed different gameplay cases to be checked clearly, such as picking up an item, combining ingredients, using the fryer, serving an order, or throwing an item away.
+
+The burger logic was designed so ingredients could be combined in different orders. For example, buns, cheese, and patty can still form a burger even if the player picks up the ingredients in different sequences. Such as picking up cheese first, then patty, and then buns, the resulting item from the first combination of cheese + patty would be the sprite from `CheesePatty.vhd`. 
+
+### Order System and Timer
+The order system was added after the item logic. Each order uses item codes for burger, fries, Sprite, and cola. The game tracks the current order, checks whether item A and item B are completed, and advances to the next order when the required items are served.
+
+The order display also uses `item_a_done` and `item_b_done` signals so that completed parts of an order can be hidden or marked as completed. Once all required items for the current order are served, the score increases by 1 and the game moves to the next order. After all 8 orders are completed, the game enters the win state.
+
+The timer was added above the order cards and counts down during gameplay. If the timer reaches zero before all orders are completed, the game enters the game-over state. Lastly, station highlighting was added to make interactions easier to understand during gameplay and to help the player know when the action button can be used.
+
+### Bugs and Future Improvements
+There are a few bugs in the current version of the project. If Switch 2 is toggled during `GAME_PLAYING`, the sequence of the orders can change during game play. One issue occurs when the player reaches the last order with item A already completed. If Switch 2 is toggled at that point, the order may switch into a single-item order and appear blank, which can temporarily prevent the last order from completing normally. However, if Switch 2 is toggled again until the order changes back to one with a non-empty item B, the player can still complete the game.
+
+Another limitation is that if the timer runs out while the chef is holding an item, the game state switches to `GAME_OVER` and the chef becomes invisible, but the held item sprite can still move with the chef controls. This happens because the chef sprite is hidden outside of `GAME_PLAYING`, but the held-item display logic is still active. A future fix would be to also hide held-item sprites when the game is not in `GAME_PLAYING`, or to clear held_item when the game enters `GAME_OVER`.
+
+Another current limitation is that the timer is shared across the entire game and displays the same countdown above each order card. In a future version, each order could have its own individual timer instead of using one timer for all orders. This would make the order system more similar to the original Overcooked gameplay, where each order has its own time constraint.
+
+Additional gameplay features could also be added to make the game more realistic and more similar to Overcooked. For example, the fryer station could include a short cooking delay so potatoes do not turn into fries immediately. A grill station could also be added for cooking burger patties, with a timer that tracks how long the burger stays on the grill. If the burger is left on the grill for too long, a fire event could be triggered as a penalty or obstacle. Another future improvement would be adding a two-player mode, where two chefs can move independently and work together to complete orders.
