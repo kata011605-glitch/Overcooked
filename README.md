@@ -55,7 +55,7 @@ The basic combinations used in the game are shown below:
 
 For burger-related items, the ingredient order does not matter. For example, buns, cheese, and patty can still create the same final burger item even if the player picks up the ingredients in a different sequence.
 
-The chef must move near the correct station until the station border turns yellow, then press BTNC/BTN0 to interact. Completed food items can be served at the counter if they match the current order card.
+The chef must move near the correct station until the station border turns yellow, then press `BTNC` / `BTN0` to interact. Completed food items can be served at the counter if they match the current order card.
 
 ### Required Hardware/Software
 - Digilent Nexys A7-100T FPGA Board
