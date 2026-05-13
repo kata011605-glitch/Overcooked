@@ -26,9 +26,9 @@ The game has four main states:
 
 <img width="1137" height="470" alt="b16a977f8b09f5158ef0b022f39c1b5a" src="https://github.com/user-attachments/assets/c9a8c8b4-9763-4409-bb23-df16247f369e" />
 
-This project uses finite state machine logic for game flow and Boolean logic for collision and interaction detection. Signals such as ```near_buns```, ```near_cheese```, ```near_fryer```, ```near_counter```, and ```near_trash``` determine whether the chef is close enough to interact with a station. When the chef enters the interaction boundary for a station, the border around that station changes from white to yellow to show that the action button can be used.
+This project uses finite state machine logic for game flow and Boolean logic for collision and interaction detection. Signals such as `near_buns`, `near_cheese`, `near_fryer`, `near_counter`, and `near_trash` determine whether the chef is close enough to interact with a station. When the chef enters the interaction boundary for a station, the border around that station changes from white to yellow to show that the action button can be used.
 
-In `INTRO_SELECT`, the player selects a character by toggling Switch 0 or Switch 1 on the board, then starts the game using Switch 2. In `GAME_PLAYING`, the timer runs and the player completes orders. If all orders are completed before the timer runs out, the game enters ```GAME_WIN```. If the timer reaches zero before all orders are completed, the game enters `GAME_OVER`.
+In `INTRO_SELECT`, the player selects a character by toggling Switch 0 or Switch 1 on the board, then starts the game using Switch 2. In `GAME_PLAYING`, the timer runs and the player completes orders. If all orders are completed before the timer runs out, the game enters `GAME_WIN`. If the timer reaches zero before all orders are completed, the game enters `GAME_OVER`.
 
 <img width="1133" height="862" alt="6b03a5677321cedc7f7587a191fbf7bd" src="https://github.com/user-attachments/assets/7423eb6d-8915-4e24-9751-f11851c9ed7a" />
 
@@ -45,7 +45,7 @@ The game is controlled using the Nexys board buttons and switches.
 - Switch SW0: male charecter select on the right
 - Switch SW1: female charecter select on the left
 - Switch SW2: game start/game back to character selection after game over
-Toggling switch ```SW0``` selects the male character on the right side of the character selection screen. Toggling switch ```SW1``` selects the female character on the left side. Toggling switch SW2 starts the game after a character is selected. After the game ends, toggling SW2 returns the game back to the character selection screen.
+Toggling switch `SW0` selects the male character on the right side of the character selection screen. Toggling switch `SW1` selects the female character on the left side. Toggling switch SW2 starts the game after a character is selected. After the game ends, toggling SW2 returns the game back to the character selection screen.
 
 ### How to Play
 
@@ -69,13 +69,18 @@ The chef must move near the correct station until the station border turns yello
 
 
 ### System Architecture
-The top-level module, ```overcooked.vhd```, connects the FPGA hardware inputs and outputs to the game logic. It receives the board clock, push buttons, switches, VGA outputs, and 7-segment display outputs. The VGA synchronization module generates the current ```pixel_row``` and ```pixel_col``` values used to draw the screen. The top-level module also updates the chef’s x and y position based on the directional buttons and generates the ```shuffle_sel``` value used for order sequence selection.
+The top-level module, `overcooked.vhd`, connects the FPGA hardware inputs and outputs to the game logic. It receives the board clock, push buttons, switches, VGA outputs, and 7-segment display outputs. The VGA synchronization module generates the current `pixel_row` and `pixel_col` values used to draw the screen. The top-level module also updates the chef’s x and y position based on the directional buttons and generates the `shuffle_sel` value used for order sequence selection.
 
-The ```cookfood.vhd``` module contains the main gameplay logic. It receives the chef position, current pixel location, button and switch inputs, and shuffle value. It controls the game state, selected character, held item, station detection, order completion, score, timer, and final RGB output.
+The `cookfood.vhd` module contains the main gameplay logic. It receives the chef position, current pixel location, button and switch inputs, and shuffle value. It controls the game state, selected character, held item, station detection, order completion, score, timer, and final RGB output.
 
 Individual sprite display modules are used to draw each item or character. Each sprite module checks whether the current pixel position falls inside the sprite’s coordinate range. If the pixel is part of the sprite, the module outputs RGB values and sets its visible signal high. The main cookfood.vhd module layers these visible signals together to create the final game display.
 
-[Full Video of Game Play](https://youtu.be/U1lmlOHkiJk)
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=haoUbl20fis" target="_blank">
+  <img src="http://img.youtube.com/vi/haoUbl20fis/0.jpg" 
+       alt="Full Gameplay Demo Video" width="240" height="180" border="10" />
+</a>
+
 
 ## Summary of steps
 1. Create a new RTL project called _overcooked_ in Vivado
@@ -94,11 +99,11 @@ Individual sprite display modules are used to draw each item or character. Each 
 
 
 ### Inputs and Outputs (cookfood.vhd)
-The project uses the Nexys A7-100T buttons and switches as the main player inputs. The directional buttons control chef movement: ```BTNU``` moves up, ```BTND``` moves down, ```BTNL``` moves left, and ```BTNR``` moves right. ```BTNC``` (```BTN0```) is used as the action button for picking up items, combining ingredients, serving completed orders, and discarding items. The switches are used for game setup and state control: ```SW0``` selects the male chef, ```SW1``` selects the female chef, and ```SW2``` starts the game after a character is selected or returns to character selection after the game ends.
+The project uses the Nexys A7-100T buttons and switches as the main player inputs. The directional buttons control chef movement: `BTNU` moves up, `BTND` moves down, `BTNL` moves left, and `BTNR` moves right. `BTNC` (`BTN0`) is used as the action button for picking up items, combining ingredients, serving completed orders, and discarding items. The switches are used for game setup and state control: `SW0` selects the male chef, `SW1` selects the female chef, and `SW2` starts the game after a character is selected or returns to character selection after the game ends.
 
-The main outputs are the VGA display signals and the 7-segment score display. ```VGA_red```, ```VGA_green```, and ```VGA_blue``` send the color values for each pixel, and ```VGA_hsync``` and ```VGA_vsync``` control the VGA timing. These signals allow the game screen to appear on a monitor through the VGA-to-HDMI adapter. The score is sent to the Nexys board 7-segment display through SEG7_anode and SEG7_seg. Score is displayed in binary. Each completed order increases the score by one, and completing all eight orders displays a score of 00001000. Restarting the game would reset the score. 
+The main outputs are the VGA display signals and the 7-segment score display. `VGA_red`, `VGA_green`, and `VGA_blue` send the color values for each pixel, and `VGA_hsync` and `VGA_vsync` control the VGA timing. These signals allow the game screen to appear on a monitor through the VGA-to-HDMI adapter. The score is sent to the Nexys board 7-segment display through SEG7_anode and SEG7_seg. Score is displayed in binary. Each completed order increases the score by one, and completing all eight orders displays a score of 00001000. Restarting the game would reset the score. 
 
-Internally, the gameplay module also uses signals such as ```pixel_row```, ```pixel_col```, ```chefm_x```, ```chefm_y```, and ```shuffle_sel```. They connect the VGA system, chef movement, and order shuffle logic to the main game module, allowing ```cookfood.vhd``` to draw the screen, check station boundaries, update the held item, complete orders, and output the final RGB color values for the display.
+Internally, the gameplay module also uses signals such as `pixel_row`, `pixel_col`, `chefm_x`, `chefm_y`, and `shuffle_sel`. They connect the VGA system, chef movement, and order shuffle logic to the main game module, allowing `cookfood.vhd` to draw the screen, check station boundaries, update the held item, complete orders, and output the final RGB color values for the display.
 
 ```VHDL
 entity cookfood is
@@ -123,11 +128,11 @@ end cookfood;
 ```
 
 ## Modifications 
-This project was built from the Lab 6 Pong structure. The files ```pong.vhd```, ```bat_n_ball.vhd```, ```vga_sync.vhd```, ```pong.xdc```, ```leddec.vhd```, ```clk_wiz_0.vhd```, and ```clk_wiz_0_clk_wiz.vhd``` were reused from Lab 6. Some aspects of ```pong.vhd``` were also used as a baseline. ```pong.vhd``` was renamed to ```overcooked.vhd```, ```bat_n_ball.vhd``` to ```cookfood.vhd``` and ```pong.xdc``` to ```setup.xdc```.
+This project was built from the Lab 6 Pong structure. The files `pong.vhd`, `bat_n_ball.vhd`, `vga_sync.vhd`, `pong.xdc`, `leddec.vhd`, `clk_wiz_0.vhd`, and `clk_wiz_0_clk_wiz.vhd` were reused from Lab 6. Some aspects of `pong.vhd` were also used as a baseline. `pong.vhd` was renamed to `overcooked.vhd`, `bat_n_ball.vhd` to `cookfood.vhd` and `pong.xdc` to `setup.xdc`.
 
 The original Pong project used coordinate-based contact logic between the ball and bat. In this project, that idea was modified into proximity detection between the chef and kitchen stations. Instead of checking whether a ball touches the bat, the game checks whether the chef’s center point is inside the interaction boundary of an item station, fryer, trash can, or serving counter.
 
-The original Pong bat movement was also expanded. The starter code mainly used vertical movement, but this project adds both x-direction and y-direction movement so the chef can move around the kitchen layout. Therefore, ```BTNU``` and ```BTND``` were added in the constraints file for vertical movement control. 
+The original Pong bat movement was also expanded. The starter code mainly used vertical movement, but this project adds both x-direction and y-direction movement so the chef can move around the kitchen layout. Therefore, `BTNU` and `BTND` were added in the constraints file for vertical movement control. 
 
 _setup.xdc_:
 ```set_property -dict { PACKAGE_PIN N17 IOSTANDARD LVCMOS33 } [get_ports { btn0 }]; #IO_L9P_T1_DQS_14 Sch=btnc
@@ -141,7 +146,7 @@ The score display from Lab 6 was kept in binary and modified for this game, so t
 
 Other features that were created for this game includes character selection, item pickup, food combining, held item display, order tracking, order shuffling, a 3-minute countdown timer, station highlighting, trash logic, serving logic, and win/game-over message screens.
 
-An order shuffle system was also added. A 3-bit counter, ```rand_count```, runs continuously in the top-level module. When SW2 starts a new game, the current counter value is captured as shuffle_sel. This value selects one of eight predefined order sequences, so the displayed order list changes between game runs to simulate a "random" shuffle.
+An order shuffle system was also added. A 3-bit counter, `rand_count`, runs continuously in the top-level module. When SW2 starts a new game, the current counter value is captured as shuffle_sel. This value selects one of eight predefined order sequences, so the displayed order list changes between game runs to simulate a "random" shuffle.
 
 ## Summary
 **Conclude with a summary of the process itself – who was responsible for what components (preferably also shown by each person contributing to the github repository!), the timeline of work completed, any difficulties encountered and how they were solved, etc. (10 points of the Submission category)
