@@ -177,7 +177,7 @@ Held item placement was tested by mapping separate sprite instances to the chef�
 
 An example calculation for `hand_plate_y` is shown to explain why the value 102 was used in `hand_plate_y <= chefm_y + 102`. In this calculation, `chefm_y` represents the top y-coordinate of the chef sprite, and chefm_x represents the left x-coordinate. Since each sprite is placed using its top-left coordinate, the held item needs an offset from the chef’s top-left corner to appear correctly in the chef’s hand.
 
-<img width="475" height="306" alt="a96e24b5cdebba61a54649d23e32c8db" src="https://github.com/user-attachments/assets/e0366fa7-3273-4e00-9281-f178e4815fbf" />
+<img width="477" height="302" alt="image" src="https://github.com/user-attachments/assets/44d8fea9-70fc-44c7-a953-e927c15eb84b" />
 
 All the food sprites shared the same general size and top-left placement style, they had similar alignment requirements when being mapped to the chef’s hand. The drink sprites also shared their own alignment requirements. Therefore, only two hand-position mappings were needed: one for drinks and one for plate-based food items because of plate pixel consistency across drawings. This kept the held-item display simpler while still allowing different food and drink sprites to appear correctly in the chef’s hand.
 
