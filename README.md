@@ -120,12 +120,6 @@ entity cookfood is
 end cookfood;
 ```
 
-#### Modi
-
-As part of this category, if using starter code of some kind (discussed below), you should add at least one input and at least one output appropriate to your project to demonstrate your understanding of modifying the ports of your various architectures and components in VHDL as well as the separate .xdc constraints file.
-
-Images and/or videos of the project in action interspersed throughout to provide context (10 points of the Submission category)
-
 ## Modifications 
 This project was built from the Lab 6 Pong structure. The files ```pong.vhd```, ```bat_n_ball.vhd```, ```vga_sync.vhd```, ```pong.xdc```, ```leddec.vhd```, ```clk_wiz_0.vhd```, and ```clk_wiz_0_clk_wiz.vhd``` were reused from Lab 6. Some aspects of ```pong.vhd``` were also used as a baseline. ```pong.vhd``` was renamed to ```overcooked.vhd```, ```bat_n_ball.vhd``` to ```cookfood.vhd``` and ```pong.xdc``` to ```setup.xdc```.
 
@@ -148,7 +142,14 @@ Other features that were created for this game includes character selection, ite
 An order shuffle system was also added. A 3-bit counter, ```rand_count```, runs continuously in the top-level module. When SW2 starts a new game, the current counter value is captured as shuffle_sel. This value selects one of eight predefined order sequences, so the displayed order list changes between game runs to simulate a "random" shuffle.
 
 ## Summary
-Conclude with a summary of the process itself – who was responsible for what components (preferably also shown by each person contributing to the github repository!), the timeline of work completed, any difficulties encountered and how they were solved, etc. (10 points of the Submission category)
+**Conclude with a summary of the process itself – who was responsible for what components (preferably also shown by each person contributing to the github repository!), the timeline of work completed, any difficulties encountered and how they were solved, etc. (10 points of the Submission category)
+
+#### Contributions
+Kaitlyn Adams: 
+
+Malia Chopra: 
+
+Zihan Sun: Pixelated drawings, sprite conversion, station placement, interaction boundary calculations and implementation, yellow station highlighting, held-item alignment, item pickup and combination logic, order display and shuffle, timer display, character selection, game-over/game-win screens, module integration, FPGA testing/debugging, and documentation.
 
 ### Graphics and Sprite Creation
 The project started with the graphics design and placement of items within the kitchen layout. The sprites were created by making pixelated drawings for the chef characters, ingredients, drinks, and prepared foods. These pixelated drawings were then downloaded as PNG images and converted into CSV palette-index data in VS Code using the help of AI (ChatGPT). The CSV values were then used to create VHDL sprite display modules, where each palette index mapped to a specific RGB color value, allowing the drawn pixel-art sprites to display on the FPGA screen.
