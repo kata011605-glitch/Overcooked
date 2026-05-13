@@ -12,6 +12,7 @@ This project is a single-player Overcooked-style cooking game implemented in VHD
 The player controls a chef character in a kitchen layout. The goal is to pick up ingredients, prepare food, and complete the order cards before the timer runs out. The kitchen contains ingredient stations, drink stations, a cutting board area, a fryer station, a serving counter, plates, and a trash can.
 
 <img width="1718" height="1279" alt="139c79df3c834e425dd917b8602b420c" src="https://github.com/user-attachments/assets/eefdbfd5-88d7-4396-bc97-6bc6219e816d" />
+<br><br>
 
 The player moves the chef near an item or station using the four directional buttons and presses the center button to interact. Depending on the chef’s location and held item, the player can pick up items, combine ingredients, serve food, or discard an item.
 
@@ -28,9 +29,10 @@ The game has four main states:
 This project uses finite state machine logic for game flow and Boolean logic for collision and interaction detection. Signals such as ```near_buns```, ```near_cheese```, ```near_fryer```, ```near_counter```, and ```near_trash``` determine whether the chef is close enough to interact with a station. When the chef enters the interaction boundary for a station, the border around that station changes from white to yellow to show that the action button can be used.
 
 In `INTRO_SELECT`, the player selects a character by toggling Switch 0 or Switch 1 on the board, then starts the game using Switch 2. In `GAME_PLAYING`, the timer runs and the player completes orders. If all orders are completed before the timer runs out, the game enters ```GAME_WIN```. If the timer reaches zero before all orders are completed, the game enters `GAME_OVER`.
-<img width="1133" height="862" alt="6b03a5677321cedc7f7587a191fbf7bd" src="https://github.com/user-attachments/assets/7423eb6d-8915-4e24-9751-f11851c9ed7a" />
-<img width="1727" height="1279" alt="ac086343d5d05781d84274a1fc223510" src="https://github.com/user-attachments/assets/abb320ab-9391-4008-ba17-07b6ba108fb1" />
 
+<img width="1133" height="862" alt="6b03a5677321cedc7f7587a191fbf7bd" src="https://github.com/user-attachments/assets/7423eb6d-8915-4e24-9751-f11851c9ed7a" />
+
+<img width="1727" height="1279" alt="ac086343d5d05781d84274a1fc223510" src="https://github.com/user-attachments/assets/abb320ab-9391-4008-ba17-07b6ba108fb1" />
 
 
 ### Controls
@@ -165,7 +167,7 @@ The same sprite module can be reused in multiple places by instantiating it with
 
 After placing the stations, interaction boundaries were defined around each item or station using the chef’s center point, calculated as `chefm_x + 98` and `chefm_y + 98`. This value was used because the chef sprite was originally 98 × 98 pixels and then scaled by 2 for display, making the center point approximately 98 pixels from the top-left coordinate. Using the chef’s center point worked better than using the top-left corner because it more accurately represented where the chef was standing relative to each station and allowed for easier calculations later on for interaction zone calculations.
 
-Most interaction zones were around 60–70 pixels wide, but the exact x and y thresholds varied depending on the station. For example, the spacing between cola and Sprite was different from the spacing between Sprite and the fryer station, so each boundary had to be adjusted separately. The goal was to make the interaction zones close enough so that the chef visually appears next to the station, but not so large that nearby stations accidentally trigger at the same time. 
+Most interaction zones were around 30–40 pixels wide, but the exact x and y thresholds varied depending on the station. For example, the spacing between cola and Sprite was different from the spacing between Sprite and the fryer station, so each boundary had to be adjusted separately. The goal was to make the interaction zones close enough so that the chef visually appears next to the station, but not so large that nearby stations accidentally trigger at the same time. 
 
 ### Station Highlighting and Action Logic
 When a near-item condition is satisfied, such as `near_buns`, `near_cola`, `near_fryer`, or `near_counter`, the border around that specific station changes from white to yellow, similar to the character selection border highlight. 
@@ -195,6 +197,22 @@ The order system was added after the item logic. Each order uses item codes for 
 The order display also uses `item_a_done` and `item_b_done` signals so that completed parts of an order can be hidden or marked as completed. Once all required items for the current order are served, the score increases by 1 and the game moves to the next order. After all 8 orders are completed, the game enters the win state.
 
 The timer was added above the order cards and counts down during gameplay. If the timer reaches zero before all orders are completed, the game enters the game-over state. Lastly, station highlighting was added to make interactions easier to understand during gameplay and to help the player know when the action button can be used.
+
+### Challenges
+One major difficulty was aligning the sprites correctly on the VGA display. Since each sprite module uses a top-left coordinate for placement, the held food and drink items required some calculations, testing, and adjusting for it to correctly appear in the chef’s hand. 
+
+Another difficulty was creating interaction boundaries for each station. If the boundaries were too large, the chef could accidentally trigger the wrong item station. If they were too small, the player had to stand in an overly specific position to interact. This was solved by using the chef’s center point and adjusting the x and y coordinate ranges for each station and testing the boundaries in game play until it has a reasonable interactive boundary for item interaction zone. 
+
+The order system and timer were another important challenge. The game uses `current_order` to track which order the player is currently completing, and `item_a_done` and `item_b_done` to track whether each part of the order has already been served. This was needed because some orders only require one item, while other orders require two items. The `orders_display` module receives these signals and uses them to show the current order cards, hide or update completed order items, and display the shared countdown timer above the orders. Separate tracking signals were used for item A and item B, checking whether `current_item_b` was empty for single-item orders, and only advance `current_order` after the correct completion condition was met. The serving logic also had to check whether the item the chef is holding matches the required order item. To make this easier, the held item is converted into a small item code using the `held_to_code` function. For example, burger, fries, Sprite, and cola each have their own code. When the chef is near the serving counter and presses the action button, the code checks whether the held item matches `current_item_a` or `current_item_b`. If it matches, the matching item is marked as completed and the chef’s hand is cleared. Once all required parts of the order are completed, the score increases by one, the game moves to the next order, and the completion signals reset for the next order.
+
+- Single-Item and Two-Item Order Completion Logic:
+<img width="752" height="500" alt="image" src="https://github.com/user-attachments/assets/65fd5775-d5f1-4352-b255-9617fb8fba43" />
+
+<br><br>
+
+The timer was also challenging because it needed to count down in real time during gameplay without running during the intro, win, or game-over screens. This was handled using `frame_count` and `time_left`. Since the VGA vertical sync runs once per frame, `frame_count` counts from 0 to 59, and then `time_left` decreases by one second. The timer starts at 180 seconds for a 3-minute game and only updates while the game is in `GAME_PLAYING`. If `time_left` reaches zero before all orders are completed, the game changes to `GAME_OVER`. If the player completes all 8 orders before the timer runs out, the game changes to `GAME_WIN`.
+
+Overall, this project required combining VGA display logic, sprite modules, button/switch input, finite state machine logic, Boolean interaction checks, and hardware testing. Through debugging and repeated testing on the FPGA board, the final game was able to run as a playable Overcooked-style game with character selection, movement, item pickup, food combinations, order serving, scoring, a countdown timer, and end-game screens.
 
 ### Bugs and Future Improvements
 There are a few bugs in the current version of the project. If Switch 2 is toggled during `GAME_PLAYING`, the sequence of the orders can change during game play. One issue occurs when the player reaches the last order with item A already completed. If Switch 2 is toggled at that point, the order may switch into a single-item order and appear blank, which can temporarily prevent the last order from completing normally. However, if Switch 2 is toggled again until the order changes back to one with a non-empty item B, the player can still complete the game.
