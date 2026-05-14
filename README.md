@@ -148,7 +148,7 @@ This project was built from the Lab 6 Pong structure. The files `pong.vhd`, `bat
 
 The original Pong project used coordinate-based contact logic between the ball and bat. In this project, that idea was modified into proximity detection between the chef and kitchen stations. Instead of checking whether a ball touches the bat, the game checks whether the chef’s center point is inside the interaction boundary of an item station, fryer, trash can, or serving counter.
 
-The original Pong bat movement was also expanded. The starter code mainly used vertical movement, but this project adds both x-direction and y-direction movement so the chef can move around the kitchen layout. Therefore, `BTNU` and `BTND` were added in the constraints file for vertical movement control. 
+Compared to the original Pong starter project, this project added additional inputs such as `BTNU`, `BTND`, `SW0`, `SW1`, and `SW2` for full movement, character selection, and game-state control. The starter code mainly used horizontal movement of the bat, but this project adds both x-direction and y-direction movement so the chef can move around the kitchen layout. Therefore, `BTNU` and `BTND` were added in the constraints file for vertical movement control. 
 
 _setup.xdc_:
 ```tcl
@@ -239,7 +239,7 @@ The order system and timer were another important challenge. The game uses `curr
 
 <img width="752" height="500" alt="image" src="https://github.com/user-attachments/assets/65fd5775-d5f1-4352-b255-9617fb8fba43" />
 
-**Figure 10.** VHDL order completion logic for single-item and two-item orders. The score only increases after the required item conditions are completed.
+**Figure 9.** VHDL order completion logic for single-item and two-item orders. The score only increases after the required item conditions are completed.
 
 This code checks whether the current order requires one item or two items. Single-item orders complete when item A is served, while two-item orders require both item A and item B before the score increases and the game moves to the next order.
 
@@ -248,9 +248,9 @@ The timer was also challenging because it needed to count down in real time duri
 Overall, this project required combining VGA display logic, sprite modules, button/switch input, finite state machine logic, Boolean interaction checks, and hardware testing. Through debugging and repeated testing on the FPGA board, the final game was able to run as a playable Overcooked-style game with character selection, movement, item pickup, food combinations, order serving, scoring, a countdown timer, and end-game screens.
 
 ## Bugs and Future Improvements
-There are a few bugs in the current version of the project. If Switch 2 is toggled during `GAME_PLAYING`, the sequence of the orders can change during gameplay. One issue occurs when the player reaches the last order with item A already completed. If Switch 2 is toggled at that point, the order may switch into a single-item order and appear blank, which can temporarily prevent the last order from completing normally. However, if Switch 2 is toggled again until the order changes back to one with a non-empty item B, the player can still complete the game.
+There are a few bugs in the current version of the project. If `SW2` is toggled during `GAME_PLAYING`, the sequence of the orders can change during gameplay. One issue occurs when the player reaches the last order with item A already completed. If `SW2` is toggled at that point, the order may switch into a single-item order and appear blank, which can temporarily prevent the last order from completing normally. However, if `SW2` is toggled again until the order changes back to one with a non-empty item B, the player can still complete the game.
 
-Another limitation is that if the timer runs out while the chef is holding an item, the game state switches to `GAME_OVER` and the chef becomes invisible, but the held item sprite can still move with the chef controls. This happens because the chef sprite is hidden outside of `GAME_PLAYING`, but the held-item display logic is still active. A future fix would be to also hide held-item sprites when the game is not in `GAME_PLAYING`, or to clear held_item when the game enters `GAME_OVER`.
+Another limitation is that if the timer runs out while the chef is holding an item, the game state switches to `GAME_OVER` and the chef becomes invisible, but the held item sprite can still move with the chef controls. This happens because the chef sprite is hidden outside of `GAME_PLAYING`, but the held-item display logic is still active. A future fix would be to also hide held-item sprites when the game is not in `GAME_PLAYING`, or to clear `held_item` when the game enters `GAME_OVER`.
 
 Another current limitation is that the timer is shared across the entire game and displays the same countdown above each order card. In a future version, each order could have its own individual timer instead of using one timer for all orders. This would make the order system more similar to the original Overcooked gameplay, where each order has its own time constraint.
 
@@ -258,4 +258,4 @@ Additional gameplay features could also be added to make the game more realistic
 
 ## AI Assistance
 
-ChatGPT was used to assist with some troubleshooting, and converting sprite artwork concepts into VHDL/palette-index style descriptions. The final project design, implementation, testing, debugging, and verification were completed by the project team.
+ChatGPT was used to assist with some troubleshooting and converting sprite artwork concepts into VHDL sprite logic. The final project design, implementation, testing, debugging, and verification were completed by the project team.
