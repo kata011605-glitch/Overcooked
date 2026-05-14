@@ -84,7 +84,7 @@ The top-level module, `overcooked.vhd`, connects the FPGA hardware inputs and ou
 
 The `cookfood.vhd` module contains the main gameplay logic. It receives the chef position, current pixel location, button and switch inputs, and shuffle value. It controls the game state, selected character, held item, station detection, order completion, score, timer, and final RGB output.
 
-Individual sprite display modules are used to draw each item or character. Each sprite module checks whether the current pixel position falls inside the sprite’s coordinate range. If the pixel is part of the sprite, the module outputs RGB values and sets its visible signal high. The main cookfood.vhd module layers these visible signals together to create the final game display.
+Individual sprite display modules are used to draw each item or character. Each sprite module checks whether the current pixel position falls inside the sprite’s coordinate range. If the pixel is part of the sprite, the module outputs RGB values and sets its visible signal to on. The main cookfood.vhd module layers these visible signals together to create the final game display.
 
 
 **Full Gameplay Demo Video:** This video shows the game running on the Nexys A7-100T board, including character selection, movement, item pickup, food combinations, order serving, score updates, game state transitions, game win, and game restart.
@@ -142,6 +142,7 @@ entity cookfood is
     );
 end cookfood;
 ```
+_
 
 ## Modifications 
 This project was built from the Lab 6 Pong structure. The files `pong.vhd`, `bat_n_ball.vhd`, `vga_sync.vhd`, `pong.xdc`, `leddec.vhd`, `clk_wiz_0.vhd`, and `clk_wiz_0_clk_wiz.vhd` were reused from Lab 6. Some aspects of `pong.vhd` were also used as a baseline. `pong.vhd` was renamed to `overcooked.vhd`, `bat_n_ball.vhd` to `cookfood.vhd` and `pong.xdc` to `setup.xdc`.
@@ -170,7 +171,7 @@ An order shuffle system was also added. A 3-bit counter, `rand_count`, runs cont
 ### Team Contributions
 Kaitlyn Adams: 
 
-Malia Chopra: 
+Malia Chopra: Character movement modifications and boundaries, holding item logic, diagrams, FPGA testing/debugging, github repository editing, and documentation.
 
 Zihan Sun: Pixelated drawings, sprite conversion, station placement, interaction boundary calculations and implementation, yellow station highlighting, held-item alignment, item pickup and combination logic, order display and shuffle, timer display, character selection, game-over/game-win screens, module integration, FPGA testing/debugging, and documentation.
 
