@@ -33,7 +33,7 @@ The game has four main states:
 
 This project uses finite state machine logic for game flow and Boolean logic for collision and interaction detection. Signals such as `near_buns`, `near_cheese`, `near_fryer`, `near_counter`, and `near_trash` determine whether the chef is close enough to interact with a station. When the chef enters the interaction boundary for a station, the border around that station changes from white to yellow to show that the action button can be used.
 
-In `INTRO_SELECT`, the player selects a character by toggling Switch 0 or Switch 1 on the board, then starts the game using Switch 2. In `GAME_PLAYING`, the timer runs and the player completes orders. If all orders are completed before the timer runs out, the game enters `GAME_WIN`. If the timer reaches zero before all orders are completed, the game enters `GAME_OVER`.
+In `INTRO_SELECT`, the player selects a character by toggling Switch 0 or Switch 1 on the board, then starts the game using Switch 2. In `GAME_PLAYING`, the timer runs and the player completes orders. If all orders are completed before the timer runs out, the game enters `GAME_WIN`. If the 3-minute timer reaches zero before all orders are completed, the game enters `GAME_OVER`.
 
 <img width="1133" height="862" alt="6b03a5677321cedc7f7587a191fbf7bd" src="https://github.com/user-attachments/assets/7423eb6d-8915-4e24-9751-f11851c9ed7a" />
 
