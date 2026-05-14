@@ -256,6 +256,6 @@ Another current limitation is that the timer is shared across the entire game an
 
 Additional gameplay features could also be added to make the game more realistic and more similar to Overcooked. For example, the fryer station could include a short cooking delay so potatoes do not turn into fries immediately. A grill station could also be added for cooking burger patties, with a timer that tracks how long the burger stays on the grill. If the burger is left on the grill for too long, a fire event could be triggered as a penalty or obstacle. Another future improvement would be adding a two-player mode, where two chefs can move independently and work together to complete orders.
 
-## AI / Tool Assistance
+## AI Assistance
 
 ChatGPT was used to assist with some troubleshooting, and converting sprite artwork concepts into VHDL/palette-index style descriptions. The final project design, implementation, testing, debugging, and verification were completed by the project team.
