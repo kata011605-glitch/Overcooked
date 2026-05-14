@@ -185,7 +185,7 @@ An order shuffle system was also added. A 3-bit counter, `rand_count`, runs cont
 ## Development Process and Challenges
 
 ### Team Contributions
-Kaitlyn Adams: 
+Kaitlyn Adams: Character movement, order randomization, FPGA testing/debugging, github repository editing, and documentation
 
 Malia Chopra: Character movement modifications and boundaries, holding item logic, diagrams, FPGA testing/debugging, github repository editing, and documentation.
 
