@@ -142,7 +142,22 @@ entity cookfood is
     );
 end cookfood;
 ```
-_
+All combinations of 
+_Cheese.vhd_:
+```VHDL
+entity cheese_display is
+    Port (
+        pixel_row : in  std_logic_vector(10 downto 0);
+        pixel_col : in  std_logic_vector(10 downto 0);
+        icon_x    : in  std_logic_vector(10 downto 0);
+        icon_y    : in  std_logic_vector(10 downto 0);
+        red       : out std_logic_vector(3 downto 0);
+        green     : out std_logic_vector(3 downto 0);
+        blue      : out std_logic_vector(3 downto 0);
+        visible : out std_logic
+    );
+end cheese_display;
+```
 
 ## Modifications 
 This project was built from the Lab 6 Pong structure. The files `pong.vhd`, `bat_n_ball.vhd`, `vga_sync.vhd`, `pong.xdc`, `leddec.vhd`, `clk_wiz_0.vhd`, and `clk_wiz_0_clk_wiz.vhd` were reused from Lab 6. Some aspects of `pong.vhd` were also used as a baseline. `pong.vhd` was renamed to `overcooked.vhd`, `bat_n_ball.vhd` to `cookfood.vhd` and `pong.xdc` to `setup.xdc`.
