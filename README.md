@@ -15,7 +15,7 @@ The player controls a chef character in a kitchen layout. The goal is to pick up
 
 **Figure 1.** Main gameplay screen showing the kitchen layout, chef character, ingredient stations, drink stations, fryer station, serving counter, order cards, and countdown timer.
 
-The player moves the chef near an item or station using the four directional buttons and presses the center button to interact. Depending on the chef’s location and held item, the player can pick up items, combine ingredients, serve food, or discard an item.
+The player moves the chef near an item or station using the four directional buttons and presses the center button to interact. When the chef moves near an item, depending on location coordinates, the item station will be highlighted in yellow. Depending on the chef’s location and held item, the player can pick up items, combine ingredients, serve food, or discard an item. 
 
 The game includes an intro screen where the player selects between two chef characters. During gameplay, only the selected chef appears on the screen.
 
