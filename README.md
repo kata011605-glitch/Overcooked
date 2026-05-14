@@ -114,7 +114,7 @@ Individual sprite display modules are used to draw each item or character. Each 
 **Figure 7.** Example project setup and demonstration screen used during FPGA testing and final verification.
 
 ## Inputs and Outputs 
-The project uses the Nexys A7-100T buttons and switches as the main player inputs. The directional buttons control chef movement: `BTNU` moves up, `BTND` moves down, `BTNL` moves left, and `BTNR` moves right. `BTNC` (`BTN0`) is used as the action button for picking up items, combining ingredients, serving completed orders, and discarding items. The switches are used for game setup and state control: `SW0` selects the male chef, `SW1` selects the female chef, and `SW2` starts the game after a character is selected or returns to character selection after the game ends.
+The project uses the Nexys A7-100T buttons and switches as the main player inputs. The directional buttons control chef movement: `BTNU` moves up, `BTND` moves down, `BTNL` moves left, and `BTNR` moves right. `BTNC` (`BTN0`) is used as the action button for picking up items, combining ingredients, serving completed orders, and discarding items. The switches are used for game setup and state control: `SW0` selects the male chef, `SW1` selects the female chef, and `SW2` starts the game after a character is selected or returns to character selection after the game ends. The `action` input is used to complete the variety of actions using `BTNC`. This includes trashing an item, serving food (and checking if it is on the order card), picking up plates and food, combining food, and cooking at the fryer. 
 
 The main outputs are the VGA display signals and the 7-segment score display. `VGA_red`, `VGA_green`, and `VGA_blue` send the color values for each pixel, and `VGA_hsync` and `VGA_vsync` control the VGA timing. These signals allow the game screen to appear on a monitor through the VGA-to-HDMI adapter. The score is sent to the Nexys board 7-segment display through SEG7_anode and SEG7_seg. Score is displayed in binary. Each completed order increases the score by one, and completing all eight orders displays a score of 00001000. Restarting the game would reset the score. 
 
@@ -142,7 +142,8 @@ entity cookfood is
     );
 end cookfood;
 ```
-All combinations of 
+Each individual sprite has it's own VHDL file to map each pixel to a color and position on the VGA screen. The inputs and outputs are similar to `cookfood.vhd`. For each sprite the inputs include `pixel_row` and `pixel_col` which are used to determine the current row and column of the pixel being drawn. `icon_x` and `icon_y` are the horizontal and vertical location of the top_left corner of the cheese sprite on the screen. These inputs allow for the cheese to be moved around when the chef picks it up. `red`, `green`, and `blue` are the 4-bit color channel for the current pixel. Finally, the `visible` output signals whether the current pixel is part of the cheese sprite and overrides the background color when `cheese_visible = 1`. 
+
 _Cheese.vhd_:
 ```VHDL
 entity cheese_display is
@@ -154,7 +155,7 @@ entity cheese_display is
         red       : out std_logic_vector(3 downto 0);
         green     : out std_logic_vector(3 downto 0);
         blue      : out std_logic_vector(3 downto 0);
-        visible : out std_logic
+        visible   : out std_logic
     );
 end cheese_display;
 ```
